@@ -238,15 +238,17 @@ if __name__ == '__main__':
             else:
                 arvoreQueJaExiste.downRight()
                 
-    for arvore in listaDeArvores:
-        arvore.preorderTraversal()
-        print()
+    # for arvore in listaDeArvores:
+    #     arvore.preorderTraversal()
+    #     print()
 
 
     while True:
 
-        urlBuscada = input('Digite a URL de pesquisa ou #sair para encerrar o programa:').lower()
+        urlBuscada = input('Digite a URL de pesquisa ou #sair para encerrar o programa.\nURL:').lower()
         listaDaUrlBuscada = urlBuscada.split("/")
+        if urlBuscada == "#sair" :
+            break
         dominioRaiz = listaDaUrlBuscada[0]
 
         achei = True
@@ -259,10 +261,9 @@ if __name__ == '__main__':
                 arvoreAserBuscada = arvore
 
         if arvoreAserBuscada == None:
-            print('DEU RUIM')
+            print('400 Bad Request - Servidor não atendeu a requisição.')
             continue
         
-
 
         for filho in listaDaUrlBuscada[1:]:
             if arvoreAserBuscada.getCursor().leftChild.data == filho:
@@ -275,6 +276,6 @@ if __name__ == '__main__':
                 achei = False
 
         if achei:
-            print('DEU CERTO')
+            print('200 OK - Requisição bem-sucedida!')
         else:
-            print('DEU RUIM')
+            print('400 Bad Request - Servidor não atendeu a requisição.')
