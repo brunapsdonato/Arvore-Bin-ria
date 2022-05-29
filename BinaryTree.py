@@ -238,47 +238,43 @@ if __name__ == '__main__':
             else:
                 arvoreQueJaExiste.downRight()
                 
-    print([arvore.preorderTraversal() for arvore in listaDeArvores])
-    # tree = BinaryTree(30)
-    # tree.addLeftChild(15)
-    # tree.addRightChild(17)
-    # print(tree.downLeft())
-    # tree.addLeftChild(70)
-    # tree.resetCursor()
-    # print(tree.downRight())
-    # tree.addLeftChild(5)
-    # tree.addRightChild(52)
-    # print(tree.downLeft())
-    # tree.addRightChild(77)
-
-    # print('Root:',tree.getRoot())
-    # print('Cursor:',tree.getCursor())
-
-    # tree.preorderTraversal()
-    # print()
-    # tree.inorderTraversal()
-    # print()
-    # tree.postorderTraversal()
-    # chave = 150
-    # if( tree.search( chave )):
-    #     print('\nChave',chave,'está na árvore')
-    # else:
-    #     print('\nChave',chave,'NÃO está na árvore')
+    for arvore in listaDeArvores:
+        arvore.preorderTraversal()
+        print()
 
 
-    # print('Cursor:',tree.getCursor())
-    # chave = 77
-    # tree.preorderTraversal()
-    # tree.deleteNode(chave)
-    # tree.preorderTraversal()
-    # print()
-    # print()
-    # chave = 70
-    # tree.preorderTraversal()
-    # print()
-    # tree.deleteNode(chave)
-    # tree.preorderTraversal()
+    while True:
+
+        urlBuscada = input('Digite a URL de pesquisa ou #sair para encerrar o programa:').lower()
+        listaDaUrlBuscada = urlBuscada.split("/")
+        dominioRaiz = listaDaUrlBuscada[0]
+
+        achei = True
+        arvoreAserBuscada = None
+
+        for arvore in listaDeArvores:
+            arvore.resetCursor()
+            raiz = arvore.getRoot()
+            if raiz.data == dominioRaiz:
+                arvoreAserBuscada = arvore
+
+        if arvoreAserBuscada == None:
+            print('DEU RUIM')
+            continue
+        
 
 
+        for filho in listaDaUrlBuscada[1:]:
+            if arvoreAserBuscada.getCursor().leftChild.data == filho:
+                arvoreAserBuscada.downLeft()
 
+            elif arvoreAserBuscada.getCursor().rightChild.data == filho:
+                arvoreAserBuscada.downRight()
 
+            else:
+                achei = False
+
+        if achei:
+            print('DEU CERTO')
+        else:
+            print('DEU RUIM')
