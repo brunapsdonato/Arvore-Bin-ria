@@ -2,6 +2,9 @@
 Classe para instanciação de nós que vão ficar na memória
 '''
 
+from logging import root
+
+
 class Node:
     def __init__(self,data:object):
         self.__data = data
@@ -49,7 +52,7 @@ class Node:
     def hasRightChild(self)->bool:
         return self.__rightChild != None
         
-	    
+
 '''
 Classe para a instanciação de Árvores Binárias
 Autor: Alex Sandro
@@ -147,6 +150,21 @@ class BinaryTree:
         self.__preorder(node.leftChild)
         self.__preorder(node.rightChild)
 
+    def viewtree(self, node):
+        self.__viewtree(self.__root, node, False, "") 
+
+    def __viewtree(self, node, printarSoApartirDesseNode, podePrintar, minhaString):
+        if( node == None):
+            return
+        minhaString = minhaString + node.data + "/"
+        if node.data == printarSoApartirDesseNode.data:
+            podePrintar = True
+        if podePrintar == True:
+            print(minhaString)
+        self.__viewtree(node.leftChild, printarSoApartirDesseNode, podePrintar, minhaString)
+        self.__viewtree(node.rightChild, printarSoApartirDesseNode, podePrintar, minhaString)
+
+
     def __inorder(self, node):
         if( node == None):
             return
@@ -191,6 +209,8 @@ class BinaryTree:
         elif root.rightChild == None:
             if root.leftChild.data == key:
                 root.leftChild = None
+
+
 
 
 if __name__ == '__main__':  
@@ -247,8 +267,34 @@ if __name__ == '__main__':
 
         urlBuscada = input('Digite a URL de pesquisa ou #sair para encerrar o programa.\nURL:').lower()
         listaDaUrlBuscada = urlBuscada.split("/")
+        listaViewTreeSplit = urlBuscada.split(" ")
+
         if urlBuscada == "#sair" :
             break
+        if listaViewTreeSplit[0] == "#viewtree" :
+            dominioViewTree = listaViewTreeSplit[1]
+            dominioViewTreeLista = dominioViewTree.split("/")
+            dominioViewTreeRaiz = dominioViewTreeLista[0]
+            # Aqui vamos pesquisar se ja existe uma arvore na listaDeArvores para o dominioRaiz
+            for arvoreDaLista in listaDeArvores:
+                
+                arvoreDaLista.resetCursor()
+                if arvoreDaLista.getRoot().data == dominioViewTreeRaiz:
+                    deuErrado = False
+                    for filho in dominioViewTreeLista[1:]:
+                        if arvoreDaLista.getCursor().leftChild.data == filho:
+                            arvoreDaLista.downLeft()
+                        elif arvoreDaLista.getCursor().rightChild.data == filho:
+                            arvoreDaLista.downRight()
+                        else:
+                            deuErrado = True
+                    if deuErrado == False:
+                        arvoreDaLista.viewtree(arvoreDaLista.getCursor())
+                    else:
+                        print("URL não existe")
+            continue
+
+
         dominioRaiz = listaDaUrlBuscada[0]
 
         achei = True
