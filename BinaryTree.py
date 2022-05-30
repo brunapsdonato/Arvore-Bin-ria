@@ -57,6 +57,9 @@ class Node:
 Classe para a instanciação de Árvores Binárias
 Autor: Alex Sandro
 Data da última modificação: 11/05/2022
+
+GRUPO A: Bruna Priscila Sousa Donato; Gabriel Xavier Cabral e Mellanie Marques Fideles de Sousa.
+
 '''
 class BinaryTree:
     # constructor that initializes an empty Tree 
@@ -240,10 +243,6 @@ while True:
                 arvoreQueJaExiste.downLeft()
             else:
                 arvoreQueJaExiste.downRight()
-                
-    # for arvore in listaDeArvores:
-    #     arvore.preorderTraversal()
-    #     print()
 
 
     while True:
