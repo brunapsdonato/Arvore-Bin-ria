@@ -296,10 +296,10 @@ while True:
         
 
         for filho in listaDaUrlBuscada[1:]:
-            if arvoreAserBuscada.getCursor().leftChild.data == filho:
+            if arvoreAserBuscada.getCursor().leftChild is not None and arvoreAserBuscada.getCursor().leftChild.data == filho:
                 arvoreAserBuscada.downLeft()
 
-            elif arvoreAserBuscada.getCursor().rightChild.data == filho:
+            elif arvoreAserBuscada.getCursor().rightChild is not None and arvoreAserBuscada.getCursor().rightChild.data == filho:
                 arvoreAserBuscada.downRight()
 
             else:
