@@ -134,14 +134,6 @@ class BinaryTree:
     def preorderTraversal(self):
         '''Exibe os nós da árvore com percurso em pré-ordem'''
         self.__preorder(self.__root)
-
-    def inorderTraversal(self):
-        '''Exibe os nós da árvore com percurso em in-ordem'''
-        self.__inorder(self.__root)
-
-    def postorderTraversal(self):
-        '''Exibe os nós da árvore com percurso em pós-ordem'''
-        self.__postorder(self.__root)
         
     def __preorder(self, node):
         if( node == None):
@@ -163,21 +155,6 @@ class BinaryTree:
             print(minhaString)
         self.__viewtree(node.leftChild, printarSoApartirDesseNode, podePrintar, minhaString)
         self.__viewtree(node.rightChild, printarSoApartirDesseNode, podePrintar, minhaString)
-
-
-    def __inorder(self, node):
-        if( node == None):
-            return
-        self.__inorder(node.leftChild)
-        print(f'{node.data} ',end='')
-        self.__inorder(node.rightChild)
-
-    def __postorder(self, node):
-        if( node == None):
-            return
-        self.__postorder(node.leftChild)
-        self.__postorder(node.rightChild)
-        print(f'{node.data} ',end='')
 
     def deleteTree(self):
         '''Elimina todos os nós da árvore'''
@@ -210,20 +187,26 @@ class BinaryTree:
             if root.leftChild.data == key:
                 root.leftChild = None
 
-
-
-
 if __name__ == '__main__':  
-    arq = open('entrada.txt','r')
-    arquivo = arq.readlines()
-    listaDeArvores = []
+    print('Olá! Bem-vindo ao nosso programa ;D','\n')
+    
+while True:
+    try:
+        obtendo_arq = input('DIGITE O NOME DO ARQUIVO TEXTO QUE VOCÊ QUER ABRIR: ')
+        arq = open(obtendo_arq,'r')
+        arquivo = arq.readlines()
+        listaDeArvores = []
+    except Exception:
+        print('Arquivo inexistente, tente novamente um nome valido','\n')
+        continue
+
 
     for dominio in arquivo:
         dominio = dominio.lower()
         listaDominio = dominio.split('/')
         # print(listaDominio)
         # o .strip() remove o \n
-        dominioRaiz = listaDominio[0].strip()
+        dominioRaiz = listaDominio[0].strip() #obtem a raiz da árvore
 
         arvoreQueJaExiste = None
 
@@ -265,35 +248,36 @@ if __name__ == '__main__':
 
     while True:
 
-        urlBuscada = input('Digite a URL de pesquisa ou #sair para encerrar o programa.\nURL:').lower()
+        urlBuscada = input('\nDigite a URL de pesquisa ou #sair para encerrar o programa.\nURL:').lower()
         listaDaUrlBuscada = urlBuscada.split("/")
         listaViewTreeSplit = urlBuscada.split(" ")
 
         if urlBuscada == "#sair" :
+            print('PROGRAMA ENCERRADO!','\n')
             break
+
         if listaViewTreeSplit[0] == "#viewtree" :
             dominioViewTree = listaViewTreeSplit[1]
             dominioViewTreeLista = dominioViewTree.split("/")
             dominioViewTreeRaiz = dominioViewTreeLista[0]
+            deuErrado = True
             # Aqui vamos pesquisar se ja existe uma arvore na listaDeArvores para o dominioRaiz
             for arvoreDaLista in listaDeArvores:
-                
                 arvoreDaLista.resetCursor()
                 if arvoreDaLista.getRoot().data == dominioViewTreeRaiz:
                     deuErrado = False
                     for filho in dominioViewTreeLista[1:]:
-                        if arvoreDaLista.getCursor().leftChild.data == filho:
+                        if arvoreDaLista.getCursor().leftChild is not None and arvoreDaLista.getCursor().leftChild.data == filho:
                             arvoreDaLista.downLeft()
-                        elif arvoreDaLista.getCursor().rightChild.data == filho:
+                        elif arvoreDaLista.getCursor().rightChild is not None and arvoreDaLista.getCursor().rightChild.data == filho:
                             arvoreDaLista.downRight()
                         else:
                             deuErrado = True
                     if deuErrado == False:
                         arvoreDaLista.viewtree(arvoreDaLista.getCursor())
-                    else:
-                        print("URL não existe")
+            if deuErrado:
+                print("URL não existe")
             continue
-
 
         dominioRaiz = listaDaUrlBuscada[0]
 
